@@ -4,7 +4,7 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
-var voteCountForResults = 25; //Max number of votes before results are displayed
+var voteCountForResults = 2; //Max number of votes before results are displayed
 
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
