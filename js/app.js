@@ -23,6 +23,7 @@ var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jp
 /*******************************************************
  *                  Object Definitions 
  ******************************************************/
+//Constructor for Product object
 function Product(name, filepath, description){
   this.name = name;
   this.filepath = filepath;
@@ -32,6 +33,7 @@ function Product(name, filepath, description){
   Product.listOfProducts.push(this); //Add Product to listOfProducts
 }
 
+//Additional Product properties
 Product.listOfProducts = []; //Stores all Product objects created
 Product.totalVotes = 0; //Tracks total votes made, reset to zero on page refresh
 Product.currentProductsDisplayed = []; //Tracks which products are currently displayed
@@ -91,18 +93,19 @@ function displayThreeNewProducts(){
 function createResultsList(products){
   //Get the ordered list element from the DOM
   var resultsList = document.getElementById('resultsList');
+
   // For each product in the list of products
-  // 	Create a list item, and an image item (append to appropriate parents)
-  // 	Set the image src = to product source 
-  // 	Set a "label" span with “n votes for the product_name”
-  //  Append listing to product results list
   for(var i=0; i < productCount; i++){
+    // 	Create a list item, and an image item (append to appropriate parents)
     var productListing = document.createElement('li');
+    // 	Set the image src = to product source 
     var productImage = document.createElement('img');
     productImage.src = products[i].filepath;
+    // 	Set a "label" span with “n votes for the product_name”
     var productResults = `${products[i].voteCount} votes for the ${products[i].name}.`;
     var productInfo = document.createElement('span');
     productInfo.innerHTML = productResults;
+    //  Append listing to product results list
     productListing.appendChild(productImage);
     productListing.appendChild(productInfo);
     resultsList.appendChild(productListing);
@@ -142,6 +145,13 @@ for(var i=0; i < productCount; i++){
 
 console.log('created product objects');
 
+//When 'Restart' button clicked, refresh page and start over
+var restartButton = document.getElementById('restart');
+restartButton.addEventListener('click', function(){
+  window.location.reload();
+});
+
+
 //On page load, display 3 pictures
 displayThreeNewProducts();
 console.log('displayed 3 initial products');
@@ -171,12 +181,3 @@ for(var j=0; j < 3; j++){
   });
 }
 
-//vote count). If voteCt == 25
-// Replace section header to specify results
-// Remove content from ul of voting images
-// Grab the ordered list element 
-// Sort the list of products by total vote count
-// For each image in the list of products
-// 	Create a list item, and an image item (append to appropriate parents)
-// 	Set the image src = to product source 
-// 	Set a label with “n votes for the product_name”
