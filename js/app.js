@@ -4,6 +4,7 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
+var voteCountForResults = 3; //Max number of votes before results are displayed
 
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
@@ -41,6 +42,21 @@ Product.currentProductsDisplayed = []; //Tracks which products are currently dis
  *                 Function Definitions 
  ******************************************************/
 
+//Compare function for Array.sort() to
+//sort by Product vote count in DESCENDING order.
+//Note: a and b are Product objects in the 
+//Product.listOfProducts array
+function compareVoteCount(a, b){
+  if(a.voteCount > b.voteCount){
+    return -1;
+  }
+  if(a.voteCount === b.voteCount){
+    return 0;
+  }
+  return 1;
+}
+
+
 //Displays three new products to the page
 function displayThreeNewProducts(){
   //Generate 3 unique random numbers
@@ -71,11 +87,18 @@ function displayThreeNewProducts(){
 }
 
 
+//Adds each product with its vote count to the DOM
+function createResultsList(products){
+
+}
+
+
+
 //Displays the voting results in order from
 //most popular to least
 
 // Replace section header to specify results
-// Remove content from ul of voting images
+// Hide voting images
 // Grab the ordered list element 
 // Sort the list of products by total vote count
 // For each image in the list of products
@@ -83,6 +106,17 @@ function displayThreeNewProducts(){
 // 	Set the image src = to product source 
 // 	Set a label with “n votes for the product_name”
 function displayResults(){
+  //Sort list of products by vote count in descending order
+  Product.listOfProducts.sort(compareVoteCount);
+
+  //Replace section header to specify results
+  document.getElementById('sectionHeader').innerText = 'Voting Results';
+  //Replace section contents with instructions
+  document.getElementById('sectionContents').innerHTML = 'Results are listed in descending order from most popular to least.';
+  //Hide the product voting list display
+  document.getElementById('voteList').style.display = 'none';
+
+
 
 }
 
@@ -110,17 +144,23 @@ var productsOnDisplay = document.getElementsByTagName('img');
 for(var j=0; j < 3; j++){
   var selectedProduct = productsOnDisplay[j];
   selectedProduct.addEventListener('click', function(e){
+    //update total vote count
+    Product.totalVotes++;
     var currentProductIndex = e.target.id; //get index of clicked product
     Product.listOfProducts[currentProductIndex].voteCount++; //increment vote count for clicked product
-    
+    console.log('id of product clicked: ' + currentProductIndex);
     //If vote count == 25, display results!
-  
+    if(Product.totalVotes === voteCountForResults){
+      Product.totalVotes = 0; //reset total vote count
+      console.log('25 votes counted');
+      displayResults();
+    }
+    //Else, display three new products
+    else{
+      displayThreeNewProducts();
+    }
   });
 }
-
-//On image click, display 3 new products (making sure to update
-
-
 
 //vote count). If voteCt == 25
 // Replace section header to specify results
