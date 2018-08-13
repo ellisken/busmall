@@ -4,7 +4,7 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
-var voteCountForResults = 3; //Max number of votes before results are displayed
+var voteCountForResults = 25; //Max number of votes before results are displayed
 
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
@@ -89,25 +89,34 @@ function displayThreeNewProducts(){
 
 //Adds each product with its vote count to the DOM
 function createResultsList(products){
-
+  //Get the ordered list element from the DOM
+  var resultsList = document.getElementById('resultsList');
+  // For each product in the list of products
+  // 	Create a list item, and an image item (append to appropriate parents)
+  // 	Set the image src = to product source 
+  // 	Set a "label" span with “n votes for the product_name”
+  //  Append listing to product results list
+  for(var i=0; i < productCount; i++){
+    var productListing = document.createElement('li');
+    var productImage = document.createElement('img');
+    productImage.src = products[i].filepath;
+    var productResults = `${products[i].voteCount} votes for the ${products[i].name}.`;
+    var productInfo = document.createElement('span');
+    productInfo.innerHTML = productResults;
+    productListing.appendChild(productImage);
+    productListing.appendChild(productInfo);
+    resultsList.appendChild(productListing);
+  }
+  return;
 }
 
 
 
 //Displays the voting results in order from
 //most popular to least
-
-// Replace section header to specify results
-// Hide voting images
-// Grab the ordered list element 
-// Sort the list of products by total vote count
-// For each image in the list of products
-// 	Create a list item, and an image item (append to appropriate parents)
-// 	Set the image src = to product source 
-// 	Set a label with “n votes for the product_name”
 function displayResults(){
   //Sort list of products by vote count in descending order
-  Product.listOfProducts.sort(compareVoteCount);
+  var sortedProducts = Product.listOfProducts.sort(compareVoteCount);
 
   //Replace section header to specify results
   document.getElementById('sectionHeader').innerText = 'Voting Results';
@@ -116,8 +125,8 @@ function displayResults(){
   //Hide the product voting list display
   document.getElementById('voteList').style.display = 'none';
 
-
-
+  createResultsList(sortedProducts);
+  return;
 }
 
 
