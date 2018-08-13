@@ -5,6 +5,18 @@
  ******************************************************/
 var productCount = 15; //Should be set to equal the initial number of products
 
+//Product info to load
+var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
+  ['ipad toilet paper holder', 'img/bathroom.jpg'], ['breakfast bot', 'img/breakfast'],
+  ['useless boots', 'img/boots.jpg'], ['meatball gum', 'img/bubblgum.jpg'], 
+  ['scared chair', 'img/chair.jpg'], ['cthulhu', 'img/cthulhu.jpg'],
+  ['duck snout', 'img/dog-duck.jpg'], ['dragon meat', 'img/dragonmeat.jpg'],
+  ['utensil pen', 'img/pen.jpg'], ['mop slippers', 'img/pet-sweep.jpg'],
+  ['pizza shears', 'img/scissors.jpg'], ['shark sleeping bag', 'img/shark.jpg'],
+  ['baby mop', 'img/sweep.png'], ['tauntaun bag', 'img/tauntaun.jpg'],
+  ['unicorn meat', 'img/unicorn.jpg'], ['tentacle usb', 'img/usb.gif'],
+  ['self-watering can', 'img/water-can.jpg'], ['impossible wine glass', 'img/wine-glass.jpg']
+];
 
 
 /*******************************************************
