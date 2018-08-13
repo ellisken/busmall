@@ -3,7 +3,7 @@
 /*******************************************************
  *                  Global Constants 
  ******************************************************/
-var productCount = 15; //Should be set to equal the initial number of products
+var productCount = 20; //Should be set to equal the initial number of products
 
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
@@ -61,7 +61,8 @@ function displayResults(){
  ******************************************************/
 //Create Product objects
 for(var i=0; i < productCount; i++){
-  new Product();
+  var j = 0;
+  new Product(productInfo[i][j++], productInfo[i][j]);
 }
 
 
