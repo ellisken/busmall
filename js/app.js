@@ -4,7 +4,8 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
-var voteCountForResults = 2; //Max number of votes before results are displayed
+var voteCountForResults = 25; //Max number of votes before results are displayed
+var productsToShow = 3; //Number of products to show when voting (not yet supported)
 
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
@@ -59,22 +60,31 @@ function compareVoteCount(a, b){
 }
 
 
-//Displays three new products to the page
-function displayThreeNewProducts(){
-  //Generate 3 unique random numbers
+//Displays new products to the page
+function displayNewProducts(){
+  //Generate productsToShow unique random numbers
   // in range of 0 - productCount
   var newProducts = [];
   var randIndex;
-  for(var i=0; i < 3; i++){
+  for(var i=0; i < productsToShow; i++){
     do{
       randIndex = Math.floor(Math.random() * productCount);
     }while(newProducts.includes(randIndex) || Product.currentProductsDisplayed.includes(randIndex));
     //add random number to randomNumbers
     newProducts.push(randIndex);
   }
+  // //If list already has elements, clear it
+  // var voteList = document.getElementById('voteList');
+  // var listings = document.getElementsByClassName('vote list');
+  // console.log(listings.length);
+  // if(listings.length > 0){
+  //   for(var k=0; k < listings.length; k++){
+  //     listings[k].parentNode.removeChild(listings[k]);
+  //   }
+  // }
 
   //Display each of the products and update respective display counts
-  for(var j=0; j < 3; j++){
+  for(var j=0; j < productsToShow; j++){
     var product = document.getElementsByTagName('img')[j];
     var newProductIndex = newProducts[j];
     product.src = Product.listOfProducts[newProductIndex].filepath;
@@ -152,15 +162,15 @@ restartButton.addEventListener('click', function(){
 });
 
 
-//On page load, display 3 pictures
-displayThreeNewProducts();
-console.log('displayed 3 initial products');
+//On page load, display pictures
+displayNewProducts();
+console.log('displayed initial products');
 
 //Get image elements
 var productsOnDisplay = document.getElementsByTagName('img');
 
 //Add event listener to each image
-for(var j=0; j < 3; j++){
+for(var j=0; j < productsToShow; j++){
   var selectedProduct = productsOnDisplay[j];
   selectedProduct.addEventListener('click', function(e){
     //update total vote count
@@ -176,7 +186,7 @@ for(var j=0; j < 3; j++){
     }
     //Else, display three new products
     else{
-      displayThreeNewProducts();
+      displayNewProducts();
     }
   });
 }

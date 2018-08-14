@@ -6,6 +6,7 @@ section, p, ul, li, ol, span{
 body{
   padding: 30px 150px;
   width: 75%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 nav{
