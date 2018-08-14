@@ -1,0 +1,72 @@
+/* body, h1, h2, header, nav, img, button, main,
+section, p, ul, li, ol, span{
+  outline: 2px black dashed;
+} */
+
+body{
+  padding: 30px 150px;
+  width: 75%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+nav{
+  text-align: right;
+  padding: 10px 30px;
+}
+
+nav h1{
+  font-size: 36px;
+  max-width: 60%;
+  text-align: left;
+}
+
+main{
+  padding: 10px;
+}
+
+main h1{
+  font-size: 32px;
+  margin: 10px 30px;
+  padding: 10px;
+}
+
+main p{
+  font-size: 20px;
+  margin: 10px 30px;
+  padding 10px;
+  text-align: center;
+}
+
+ol{
+  margin: 10px 30px;
+  padding: 10px;
+}
+
+ol li{
+  margin: 10px;
+}
+
+ol li img{
+  margin: 10px 10px;
+}
+
+li span{
+  margin: 10px 30px;
+  font-size: 20px;
+}
+
+
+ul{
+  text-align: center;
+}
+
+ul li{
+  display: inline-block;
+  margin: 10px 30px;
+}
+
+img{
+  width: 150px;
+  height: auto;
+}
+
