@@ -4,7 +4,7 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
-var voteCountForResults = 5; //Max number of votes before results are displayed
+var voteCountForResults = 25; //Max number of votes before results are displayed
 var productsToShow = 3; //Number of products to show when voting (not yet supported)
 
 //Product info to load
@@ -73,15 +73,6 @@ function displayNewProducts(){
     //add random number to randomNumbers
     newProducts.push(randIndex);
   }
-  // //If list already has elements, clear it
-  // var voteList = document.getElementById('voteList');
-  // var listings = document.getElementsByClassName('vote list');
-  // console.log(listings.length);
-  // if(listings.length > 0){
-  //   for(var k=0; k < listings.length; k++){
-  //     listings[k].parentNode.removeChild(listings[k]);
-  //   }
-  // }
 
   //Display each of the products and update respective display counts
   for(var j=0; j < productsToShow; j++){
@@ -112,7 +103,14 @@ function createResultsList(products){
     var productImage = document.createElement('img');
     productImage.src = products[i].filepath;
     // 	Set a "label" span with “n votes for the product_name”
-    var productResults = `${products[i].voteCount} votes for the ${products[i].name}.`;
+    var percentageChosen;
+    if(products[i].displayCount > 0){
+      percentageChosen = ((products[i].voteCount / products[i].displayCount) * 100).toFixed(2);
+    }
+    else{
+      percentageChosen = 0;
+    }
+    var productResults = `${products[i].voteCount} vote(s) for the ${products[i].name}. Displayed ${products[i].displayCount} time(s). Chosen ${percentageChosen}% of the time.`;
     var productInfo = document.createElement('span');
     productInfo.innerHTML = productResults;
     //  Append listing to product results list
