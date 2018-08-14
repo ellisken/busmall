@@ -143,6 +143,52 @@ function displayResults(){
 }
 
 
+//Gets data for the results bar graph and formats
+//it for ChartJS
+function formatResultsData(){
+  var dataObject = {};
+  var barLabels = [];
+  var voteData = [];
+  //Add all product names to the barLabels list
+  //and add each product's vote count to voteData
+  for(var i=0; i < Product.listOfProducts.length; i++){
+    barLabels.push(Product.listOfProducts[i].name);
+    voteData.push(Product.listOfProducts[i].voteCount);
+  }
+  dataObject.type = 'bar';
+  //Add the list to the dataObject
+  dataObject.data = {};
+  dataObject.data.labels = barLabels;
+  //Add voteData to the datasets list
+  var dataset = {
+    label: 'Number of votes',
+    
+    data: voteData
+  }
+  dataObject.data.datasets = [];
+  dataObject.data.datasets[0] = dataset;
+  dataObject.options ={
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true
+        }
+      }]
+    }
+  }
+
+  console.log(dataObject);
+  return dataObject;
+}
+
+
+//Displays a bar graph of the vote results
+function displayResultsChart(voteData){
+  var ctx = document.getElementById('voteResultsChart').getContext('2d');
+  new Chart(ctx, voteData);
+}
+
+
 
 /*******************************************************
  *                        Main 
@@ -181,8 +227,10 @@ for(var j=0; j < productsToShow; j++){
     //If vote count == 25, display results!
     if(Product.totalVotes === voteCountForResults){
       Product.totalVotes = 0; //reset total vote count
-      console.log('25 votes counted');
+      console.log('all votes entered - displaying results');
       displayResults();
+      var resultsData = formatResultsData();
+      displayResultsChart(resultsData);
     }
     //Else, display three new products
     else{
@@ -190,4 +238,5 @@ for(var j=0; j < productsToShow; j++){
     }
   });
 }
+
 
