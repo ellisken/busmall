@@ -73,15 +73,6 @@ function displayNewProducts(){
     //add random number to randomNumbers
     newProducts.push(randIndex);
   }
-  // //If list already has elements, clear it
-  // var voteList = document.getElementById('voteList');
-  // var listings = document.getElementsByClassName('vote list');
-  // console.log(listings.length);
-  // if(listings.length > 0){
-  //   for(var k=0; k < listings.length; k++){
-  //     listings[k].parentNode.removeChild(listings[k]);
-  //   }
-  // }
 
   //Display each of the products and update respective display counts
   for(var j=0; j < productsToShow; j++){
@@ -112,7 +103,14 @@ function createResultsList(products){
     var productImage = document.createElement('img');
     productImage.src = products[i].filepath;
     // 	Set a "label" span with “n votes for the product_name”
-    var productResults = `${products[i].voteCount} votes for the ${products[i].name}.`;
+    var percentageChosen;
+    if(products[i].displayCount > 0){
+      percentageChosen = ((products[i].voteCount / products[i].displayCount) * 100).toFixed(2);
+    }
+    else{
+      percentageChosen = 0;
+    }
+    var productResults = `${products[i].voteCount} vote(s) for the ${products[i].name}. Displayed ${products[i].displayCount} time(s). Chosen ${percentageChosen}% of the time.`;
     var productInfo = document.createElement('span');
     productInfo.innerHTML = productResults;
     //  Append listing to product results list
@@ -140,6 +138,56 @@ function displayResults(){
 
   createResultsList(sortedProducts);
   return;
+}
+
+
+//Gets data for the results bar graph and formats
+//it for ChartJS
+function formatResultsData(){
+  var dataObject = {};
+  var barLabels = [];
+  var voteData = [];//For displaying total votes
+  //Add all product names to the barLabels list
+  //and add each product's vote count to voteData
+  for(var i=0; i < Product.listOfProducts.length; i++){
+    barLabels.push(Product.listOfProducts[i].name);
+    voteData.push(Product.listOfProducts[i].voteCount);
+  }
+  dataObject.type = 'bar';
+  //Add the list to the dataObject
+  dataObject.data = {};
+  dataObject.data.labels = barLabels;
+  //Add voteData to the datasets list
+  var dataset = {
+    label: 'Number of votes',
+    data: voteData
+  }
+  dataObject.data.datasets = [];
+  dataObject.data.datasets[0] = dataset;
+  dataObject.options ={
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: false
+        }
+      }]
+    }
+  }
+
+  console.log(dataObject);
+  return dataObject;
+}
+
+
+//Displays a bar graph of the vote results
+function displayResultsChart(voteData){
+  var ctx = document.getElementById('voteResultsChart').getContext('2d');
+  new Chart(ctx, voteData);
 }
 
 
@@ -181,8 +229,10 @@ for(var j=0; j < productsToShow; j++){
     //If vote count == 25, display results!
     if(Product.totalVotes === voteCountForResults){
       Product.totalVotes = 0; //reset total vote count
-      console.log('25 votes counted');
+      console.log('all votes entered - displaying results');
       displayResults();
+      var resultsData = formatResultsData();
+      displayResultsChart(resultsData);
     }
     //Else, display three new products
     else{
@@ -190,4 +240,5 @@ for(var j=0; j < productsToShow; j++){
     }
   });
 }
+
 
