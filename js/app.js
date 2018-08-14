@@ -146,7 +146,7 @@ function displayResults(){
 function formatResultsData(){
   var dataObject = {};
   var barLabels = [];
-  var voteData = [];
+  var voteData = [];//For displaying total votes
   //Add all product names to the barLabels list
   //and add each product's vote count to voteData
   for(var i=0; i < Product.listOfProducts.length; i++){
