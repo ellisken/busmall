@@ -4,7 +4,7 @@
  *                  Global Constants 
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
-var voteCountForResults = 25; //Max number of votes before results are displayed
+var voteCountForResults = 5; //Max number of votes before results are displayed
 var productsToShow = 3; //Number of products to show when voting (not yet supported)
 
 //Product info to load
@@ -162,7 +162,6 @@ function formatResultsData(){
   //Add voteData to the datasets list
   var dataset = {
     label: 'Number of votes',
-    
     data: voteData
   }
   dataObject.data.datasets = [];
@@ -172,6 +171,11 @@ function formatResultsData(){
       yAxes: [{
         ticks: {
           beginAtZero:true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: false
         }
       }]
     }
