@@ -160,7 +160,7 @@ function formatResultsData(){
   var dataset = {
     label: 'Number of votes',
     data: voteData
-  }
+  };
   dataObject.data.datasets = [];
   dataObject.data.datasets[0] = dataset;
   dataObject.options ={
@@ -176,9 +176,7 @@ function formatResultsData(){
         }
       }]
     }
-  }
-
-  console.log(dataObject);
+  };
   return dataObject;
 }
 
@@ -236,12 +234,12 @@ for(var j=0; j < productsToShow; j++){
     Product.totalVotes++;
     var currentProductIndex = e.target.id; //get index of clicked product
     Product.listOfProducts[currentProductIndex].voteCount++; //increment vote count for clicked product
-    console.log('id of product clicked: ' + currentProductIndex);
     //If vote count == voteCountForResults, display results!
     if(Product.totalVotes === voteCountForResults){
       Product.totalVotes = 0; //reset total vote count
       //Add current Product counts to local storage
       localStorage.setItem('products', JSON.stringify(Product.listOfProducts));
+      console.log('products saved to localStorage');
       console.log('all votes entered - displaying results');
       displayResults();
       var resultsData = formatResultsData();
