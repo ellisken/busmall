@@ -42,7 +42,7 @@ Product.currentProductsDisplayed = []; //Tracks which products are currently dis
 
 
 /*******************************************************
- *                 Function Definitions 
+ *                 Function Definitions
  ******************************************************/
 
 //Compare function for Array.sort() to
@@ -226,9 +226,11 @@ for(var j=0; j < productsToShow; j++){
     var currentProductIndex = e.target.id; //get index of clicked product
     Product.listOfProducts[currentProductIndex].voteCount++; //increment vote count for clicked product
     console.log('id of product clicked: ' + currentProductIndex);
-    //If vote count == 25, display results!
+    //If vote count == voteCountForResults, display results!
     if(Product.totalVotes === voteCountForResults){
       Product.totalVotes = 0; //reset total vote count
+      //Add current Product counts to local storage
+      localStorage.setItem('products', JSON.stringify(Product.listOfProducts));
       console.log('all votes entered - displaying results');
       displayResults();
       var resultsData = formatResultsData();
