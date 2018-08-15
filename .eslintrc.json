@@ -1,5 +1,8 @@
 {
   "extends": "eslint:recommended",
+  "globals": {
+    "Chart": true
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
