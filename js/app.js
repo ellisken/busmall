@@ -227,7 +227,7 @@ console.log('displayed initial products');
 var productsOnDisplay = document.getElementsByTagName('img');
 
 //Add event listener to each image
-for(var j=0; j < productsToShow; j++){
+for(j=0; j < productsToShow; j++){
   var selectedProduct = productsOnDisplay[j];
   selectedProduct.addEventListener('click', function(e){
     //update total vote count
