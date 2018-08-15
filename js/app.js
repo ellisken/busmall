@@ -25,12 +25,11 @@ var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jp
  *                  Object Definitions 
  ******************************************************/
 //Constructor for Product object
-function Product(name, filepath, description){
+function Product(name, filepath, voteCount = 0, displayCount = 0){
   this.name = name;
   this.filepath = filepath;
-  this.description = description;
-  this.voteCount = 0; //initialized to zero
-  this.displayCount = 0; //initialized to zero
+  this.voteCount = voteCount; //initialized to zero
+  this.displayCount = displayCount; //initialized to zero
   Product.listOfProducts.push(this); //Add Product to listOfProducts
 }
 
@@ -195,10 +194,22 @@ function displayResultsChart(voteData){
 /*******************************************************
  *                        Main 
  ******************************************************/
-//Create Product objects
-for(var i=0; i < productCount; i++){
-  var j = 0;
-  new Product(productInfo[i][j++], productInfo[i][j]);
+//Check localStorage for products list
+var allProducts = JSON.parse(localStorage.getItem('products'));
+//If 'products' in localStorage, 
+if(allProducts){
+  //Create product objects from stored data in allProducts
+  for(var l=0; l < allProducts.length; l++){
+    var product = allProducts[l];
+    new Product(product.name, product.filepath, product.voteCount, product.displayCount);
+  }
+}
+//Else create Product objects
+else{
+  for(var i=0; i < productCount; i++){
+    var j = 0;
+    new Product(productInfo[i][j++], productInfo[i][j]);
+  }
 }
 
 console.log('created product objects');
