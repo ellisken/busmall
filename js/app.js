@@ -1,7 +1,7 @@
 'use strict';
 
 /*******************************************************
- *                  Global Constants 
+ *                  Global Constants
  ******************************************************/
 var productCount = 20; //Should be set to equal the initial number of products
 var voteCountForResults = 25; //Max number of votes before results are displayed
@@ -10,7 +10,7 @@ var productsToShow = 3; //Number of products to show when voting (not yet suppor
 //Product info to load
 var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jpg'],
   ['ipad toilet paper holder', 'img/bathroom.jpg'], ['breakfast bot', 'img/breakfast.jpg'],
-  ['useless boots', 'img/boots.jpg'], ['meatball gum', 'img/bubblegum.jpg'], 
+  ['useless boots', 'img/boots.jpg'], ['meatball gum', 'img/bubblegum.jpg'],
   ['scared chair', 'img/chair.jpg'], ['cthulhu', 'img/cthulhu.jpg'],
   ['duck snout', 'img/dog-duck.jpg'], ['dragon meat', 'img/dragon.jpg'],
   ['utensil pen', 'img/pen.jpg'], ['mop slippers', 'img/pet-sweep.jpg'],
@@ -22,15 +22,14 @@ var productInfo = [['r2d2 bag', 'img/bag.jpg'], ['banana slicer', 'img/banana.jp
 
 
 /*******************************************************
- *                  Object Definitions 
+ *                  Object Definitions
  ******************************************************/
 //Constructor for Product object
-function Product(name, filepath, description){
+function Product(name, filepath, voteCount = 0, displayCount = 0){
   this.name = name;
   this.filepath = filepath;
-  this.description = description;
-  this.voteCount = 0; //initialized to zero
-  this.displayCount = 0; //initialized to zero
+  this.voteCount = voteCount; //initialized to zero
+  this.displayCount = displayCount; //initialized to zero
   Product.listOfProducts.push(this); //Add Product to listOfProducts
 }
 
@@ -42,12 +41,12 @@ Product.currentProductsDisplayed = []; //Tracks which products are currently dis
 
 
 /*******************************************************
- *                 Function Definitions 
+ *                 Function Definitions
  ******************************************************/
 
 //Compare function for Array.sort() to
 //sort by Product vote count in DESCENDING order.
-//Note: a and b are Product objects in the 
+//Note: a and b are Product objects in the
 //Product.listOfProducts array
 function compareVoteCount(a, b){
   if(a.voteCount > b.voteCount){
@@ -99,7 +98,7 @@ function createResultsList(products){
   for(var i=0; i < productCount; i++){
     // 	Create a list item, and an image item (append to appropriate parents)
     var productListing = document.createElement('li');
-    // 	Set the image src = to product source 
+    // 	Set the image src = to product source
     var productImage = document.createElement('img');
     productImage.src = products[i].filepath;
     // 	Set a "label" span with “n votes for the product_name”
@@ -161,7 +160,7 @@ function formatResultsData(){
   var dataset = {
     label: 'Number of votes',
     data: voteData
-  }
+  };
   dataObject.data.datasets = [];
   dataObject.data.datasets[0] = dataset;
   dataObject.options ={
@@ -177,9 +176,7 @@ function formatResultsData(){
         }
       }]
     }
-  }
-
-  console.log(dataObject);
+  };
   return dataObject;
 }
 
@@ -193,12 +190,24 @@ function displayResultsChart(voteData){
 
 
 /*******************************************************
- *                        Main 
+ *                        Main
  ******************************************************/
-//Create Product objects
-for(var i=0; i < productCount; i++){
-  var j = 0;
-  new Product(productInfo[i][j++], productInfo[i][j]);
+//Check localStorage for products list
+var allProducts = JSON.parse(localStorage.getItem('products'));
+//If 'products' in localStorage,
+if(allProducts){
+  //Create product objects from stored data in allProducts
+  for(var l=0; l < allProducts.length; l++){
+    var product = allProducts[l];
+    new Product(product.name, product.filepath, product.voteCount, product.displayCount);
+  }
+}
+//Else create Product objects
+else{
+  for(var i=0; i < productCount; i++){
+    var j = 0;
+    new Product(productInfo[i][j++], productInfo[i][j]);
+  }
 }
 
 console.log('created product objects');
@@ -218,17 +227,19 @@ console.log('displayed initial products');
 var productsOnDisplay = document.getElementsByTagName('img');
 
 //Add event listener to each image
-for(var j=0; j < productsToShow; j++){
+for(j=0; j < productsToShow; j++){
   var selectedProduct = productsOnDisplay[j];
   selectedProduct.addEventListener('click', function(e){
     //update total vote count
     Product.totalVotes++;
     var currentProductIndex = e.target.id; //get index of clicked product
     Product.listOfProducts[currentProductIndex].voteCount++; //increment vote count for clicked product
-    console.log('id of product clicked: ' + currentProductIndex);
-    //If vote count == 25, display results!
+    //If vote count == voteCountForResults, display results!
     if(Product.totalVotes === voteCountForResults){
       Product.totalVotes = 0; //reset total vote count
+      //Add current Product counts to local storage
+      localStorage.setItem('products', JSON.stringify(Product.listOfProducts));
+      console.log('products saved to localStorage');
       console.log('all votes entered - displaying results');
       displayResults();
       var resultsData = formatResultsData();
